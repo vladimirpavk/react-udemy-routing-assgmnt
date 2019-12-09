@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter, NavLink, Route } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Switch, Redirect } from 'react-router-dom';
 
 import Courses from './containers/Courses/Courses';
 import Users from './containers/Users/Users';
+import ErrorComponent from './components/ErrorComponent/ErrorComponent';
 
 import './App.css';
 
@@ -30,8 +31,12 @@ class App extends Component {
               <NavLink to='/courses' activeClassName="selected"><li>Courses</li></NavLink>
             </ul>
           </nav>
-          <Route path='/users' component={Users} />
-          <Route path='/courses' component={Courses} />          
+          <Switch>
+            <Route path='/courses' component={Courses} /> 
+            <Route path='/users' component={Users} />  
+            <Redirect from='/all-courses' to='/courses' />          
+            <Route path='/' component={ErrorComponent} />
+          </Switch>
         </div>
       </div>     
       </BrowserRouter>

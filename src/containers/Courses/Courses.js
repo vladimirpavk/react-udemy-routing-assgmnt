@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { NavLink, Route } from 'react-router-dom';
 
 import './Courses.css';
+
+import Course from '../Course/Course';
 
 class Courses extends Component {
     state = {
@@ -17,14 +20,23 @@ class Courses extends Component {
                 <h1>Amazing Udemy Courses</h1>
                 <section className="Courses">
                     {
-                        this.state.courses.map( course => {
-                            let item = [];
-                            item.push(<Link to='/courses/${course.id}'>`)
-                            item.push(`<article className="Course" key=${course.id}>${course.title}</article>`);
-                            item.push('</Link');
+                        this.state.courses.map( course => {                           
+                            let item = (
+                                <NavLink
+                                    key={course.id}
+                                    to={{
+                                        pathname: `/courses/${course.id}`,
+                                        search: `?courseTitle=${course.title}`
+                                    }}>                                
+                                    <article className="Course">{course.title}</article>
+                                </NavLink> 
+                            );                            
                             return (item);                            
                         } )
                     }
+                </section>
+                <section>
+                    <Route path='/courses/:id' component={Course} />
                 </section>
             </div>
         );
