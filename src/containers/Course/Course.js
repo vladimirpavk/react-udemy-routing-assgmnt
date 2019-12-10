@@ -5,21 +5,35 @@ class Course extends Component {
         super(props);
         this.state={
             courses:{
-                courseTitle :''
+                courseTitle : null
             }
         };
     }
 
     componentDidMount(){        
+        /* console.log('component did load...'); */
+        this.loadData();        
+    }
+
+    loadData = ()=>{
+        let newCourseTitle;
         const searchParams = new URLSearchParams(this.props.location.search);
-        for(let [key, value] of searchParams){
-            console.log(key, value);
-            if(key==="courseTitle") this.setState({
+        for(let [key, value] of searchParams){            
+            if(key==="courseTitle")  newCourseTitle = value;
+        }
+
+        if(!this.state.courses.courseTitle || (this.state.courses.courseTitle && this.state.courses.courseTitle!==newCourseTitle)){
+            this.setState({
                 courses:{
-                    courseTitle: value
+                    courseTitle:newCourseTitle
                 }
             });
-        }
+        }                
+    }
+
+    componentDidUpdate(){
+        /* console.log('component did update...');  */   
+        this.loadData();    
     }
 
     render () {
